@@ -1,0 +1,152 @@
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f0f2f5;
+  padding: 16px;
+}
+
+.auth-box {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  padding: 40px 32px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-box h1 {
+  font-size: 1.8rem;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.auth-box h2 {
+  font-size: 1.1rem;
+  color: #888;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.auth-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-box input {
+  padding: 11px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.auth-box input:focus {
+  border-color: #6c63ff;
+}
+
+.auth-box button[type='submit'] {
+  padding: 12px;
+  background: #6c63ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 4px;
+}
+
+.auth-box button[type='submit']:hover:not(:disabled) {
+  background: #574fd6;
+}
+
+.auth-box button[type='submit']:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-error {
+  color: #e74c3c;
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.auth-switch button {
+  background: none;
+  border: none;
+  color: #6c63ff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0;
+}
+
+.auth-switch button:hover {
+  text-decoration: underline;
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 14px;
+  background: #fff;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  margin-bottom: 4px;
+}
+
+.google-btn:hover:not(:disabled) {
+  background: #f5f5f5;
+  border-color: #bbb;
+}
+
+.google-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.google-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0;
+  color: #ccc;
+  font-size: 0.85rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+
+.divider span {
+  color: #bbb;
+}
