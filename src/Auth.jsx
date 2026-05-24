@@ -12,6 +12,12 @@ import './Auth.css'
 
 const googleProvider = new GoogleAuthProvider()
 
+// Detect in-app browser (Messenger, Zalo, Facebook, TikTok...)
+function isInAppBrowser() {
+  const ua = navigator.userAgent
+  return /FBAN|FBAV|Instagram|Messenger|ZaloApp|TikTok|Line|Twitter|Snapchat|MicroMessenger/i.test(ua)
+}
+
 // Detect iOS / Safari
 function isIOSorSafari() {
   const ua = navigator.userAgent
@@ -104,6 +110,20 @@ export default function Auth() {
       <div className="auth-box">
         <h1>📝 Todo App</h1>
         <h2>{isLogin ? 'Đăng nhập' : 'Đăng ký'}</h2>
+
+        {/* Cảnh báo in-app browser */}
+        {isInAppBrowser() && (
+          <div className="inapp-warning">
+            <p>⚠️ Bạn đang mở app trong trình duyệt của Messenger/Zalo.</p>
+            <p>Để đăng nhập bằng Google, hãy mở link bằng <strong>Safari</strong> hoặc <strong>Chrome</strong>.</p>
+            <button
+              className="open-browser-btn"
+              onClick={() => window.open(window.location.href, '_blank')}
+            >
+              🌐 Mở bằng trình duyệt
+            </button>
+          </div>
+        )}
 
         <button className="google-btn" onClick={handleGoogle} disabled={googleLoading}>
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
