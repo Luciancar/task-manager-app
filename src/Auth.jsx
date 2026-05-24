@@ -1,14 +1,26 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { auth } from './firebase'
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
 } from 'firebase/auth'
 import './Auth.css'
 
 const googleProvider = new GoogleAuthProvider()
+
+// Detect iOS / Safari
+function isIOSorSafari() {
+  const ua = navigator.userAgent
+  return (
+    /iPad|iPhone|iPod/.test(ua) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) ||
+    (/Safari/.test(ua) && !/Chrome/.test(ua))
+  )
+}
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true)
@@ -17,6 +29,21 @@ export default function Auth() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
+
+  // Xử lý kết quả redirect sau khi quay lại từ Google (iOS)
+  useEffect(() => {
+    setGoogleLoading(true)
+    getRedirectResult(auth)
+      .then((result) => {
+        // Nếu có result thì Firebase tự cập nhật auth state, không cần làm gì thêm
+      })
+      .catch((err) => {
+        if (err.code && err.code !== 'auth/popup-closed-by-user') {
+          setError('Đăng nhập Google thất bại, vui lòng thử lại.')
+        }
+      })
+      .finally(() => setGoogleLoading(false))
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -56,6 +83,12 @@ export default function Auth() {
     setError('')
     setGoogleLoading(true)
     try {
+      if (isIOSorSafari()) {
+        // iOS/Safari: dùng redirect thay vì popup
+        await signInWithRedirect(auth, googleProvider)
+        // Trang sẽ redirect sang Google, không cần finally
+        return
+      }
       await signInWithPopup(auth, googleProvider)
     } catch (err) {
       if (err.code !== 'auth/popup-closed-by-user') {
@@ -72,7 +105,6 @@ export default function Auth() {
         <h1>📝 Todo App</h1>
         <h2>{isLogin ? 'Đăng nhập' : 'Đăng ký'}</h2>
 
-        {/* Google Sign In */}
         <button className="google-btn" onClick={handleGoogle} disabled={googleLoading}>
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
           {googleLoading ? 'Đang xử lý...' : 'Tiếp tục với Google'}
